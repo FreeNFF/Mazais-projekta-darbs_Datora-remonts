@@ -90,6 +90,7 @@ pakalpojumspoga = tk.Button(logs, text="Pievienot pakalpojumu", font=("Arial", 8
 pakalpojumspoga.grid(row=3, column=2, pady=10)
 
 
+
 def delete():
     global kop_summ
     izvade.delete(0, tk.END)
@@ -98,5 +99,14 @@ def delete():
 
 izdzest = tk.Button(logs, text="Izdzēst visu", font=("Arial", 8, "bold"), bd=3, command=delete)
 izdzest.grid(row=6, columnspan=3, pady=10)
+
+def saglabat_uz_failu():
+    with open("rezultati.txt", mode="w", encoding="utf-8") as file:
+        for i in range(izvade.size()):
+            rindina = izvade.get(i)
+            file.write(rindina + "\n")
+
+saglabat_poga = tk.Button(logs, text="Saņemt paklpojumu", font=("Arial", 8, "bold"), bd=3, command=saglabat_uz_failu)
+saglabat_poga.grid(row=7, columnspan=3, pady=10)
 
 logs.mainloop()
