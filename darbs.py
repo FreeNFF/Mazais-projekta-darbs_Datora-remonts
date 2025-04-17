@@ -27,8 +27,9 @@ dators.grid(row=2, column=0, pady=10, padx=10)
     
 dators_izveletais = ""
 izveletais_pak = ""
-
+cenas={}
 def izvele_dators():
+    global cenas
     global dators_izveletais
     dators_izveletais = dators.get()
        
@@ -46,6 +47,9 @@ def izvele_dators():
         csv_reader = csv.reader(file, delimiter=',')
         pakalpojumi = [row[0] for row in csv_reader]
 
+    if dators_izveletais == 'Stacionārais':
+        cenas = {pakalpojumi[0]:50,pakalpojumi[1]:45,pakalpojumi[2]:60,pakalpojumi[3]:35,pakalpojumi[4]:85,pakalpojumi[5]:30,pakalpojumi[6]:165,pakalpojumi[7]:150,pakalpojumi[8]:200,pakalpojumi[9]:40,pakalpojumi[10]:35,pakalpojumi[11]:15,pakalpojumi[12]:20,pakalpojumi[13]:20,pakalpojumi[14]:15,pakalpojumi[15]:20,pakalpojumi[16]:35,pakalpojumi[17]:20,pakalpojumi[18]:30,pakalpojumi[19]:12,pakalpojumi[20]:15,pakalpojumi[21]:25,pakalpojumi[22]:25,pakalpojumi[23]:8,pakalpojumi[24]:15,pakalpojumi[25]:15,pakalpojumi[26]:12,pakalpojumi[27]:30,pakalpojumi[28]:30}
+        return
 
     pakalpojums['values'] = pakalpojumi
 
@@ -69,14 +73,14 @@ def pakalpojuma_izvele():
 pakalpojumssagl = tk.Button(logs, text="Izvēlēties", font=("Arial",8,"bold"), bd=3, command=pakalpojuma_izvele)
 pakalpojumssagl.grid(row=3, column=2, pady=10, padx=10)
     
-
+cena= cenas[izveletais_pak]
 
 def izvades_logs():
     global izveletais_pak
     izvele_dators()
     izvade.insert(tk.END, f"Datora veids: {dators_izveletais}")
     izvade.insert(tk.END, f"Pakalpojums: {izveletais_pak}")
-    izvade.insert(tk.END, f"Cena:  EUR")
+    izvade.insert(tk.END, f"Cena: {cena} EUR")
 
 pakalpojumspoga = tk.Button(logs, text="Rādīt cenu", font=("Arial",8,"bold"), bd=3, command=izvades_logs)
 pakalpojumspoga.grid(row=4, columnspan=3, pady=10, padx=0)
