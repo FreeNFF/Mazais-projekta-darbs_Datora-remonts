@@ -3,13 +3,13 @@ from tkinter import ttk
 import csv
 from PIL import Image, ImageTk
 
-
+# Logs
 logs = tk.Tk()
 logs.title("Datora remonts")
 logs.geometry("720x650")
 logs.configure(background="#F5EAD4")
 
-
+# Logo
 foto_frame = tk.Frame(logs, background='#F5EAD4')
 foto_frame.grid(row=0, column=0)
 foto_image = Image.open("logo.png")
@@ -18,24 +18,24 @@ foto = ImageTk.PhotoImage(resized_foto)
 foto_label = ttk.Label(foto_frame, image=foto, background='#F5EAD4')
 foto_label.pack(pady=10, padx=10)
 
-
+# Virsraksts
 ttk.Label(logs, text="Datora remonts", font='Arial 32 bold', background='#F5EAD4').grid(row=0, column=2, pady=10, padx=50)
 
-
+# Globālās vērtības
 kop_summ = 0.0
 dators_izveletais = ""
 
-
+# Izvēlēties datoru
 ttk.Label(logs, text="Kāds dators Jums ir \n(stacionārais vai portatīvais)?", font='Arial 12 bold', background='#F5EAD4').grid(row=1, column=0, pady=10, padx=10)
 dators = ttk.Combobox(logs, values=["Stacionārais", "Portatīvais"], state='readonly')
 dators.grid(row=2, column=0, pady=10, padx=10)
 
-
+# Pakalpojumu izvēle
 ttk.Label(logs, text="Kāds pakalpojums Jums ir nepieciešams?", font='Arial 12 bold', background='#F5EAD4').grid(row=1, column=2, pady=10, padx=10)
 pakalpojums = ttk.Combobox(logs, state='readonly', width=50)
 pakalpojums.grid(row=2, column=2, pady=10, padx=10)
 
-
+# Pakalpojumu saraksta ielāde
 def izvele_dators():
     global dators_izveletais
     dators_izveletais = dators.get()
@@ -50,15 +50,15 @@ def izvele_dators():
     pakalpojums.set('')
     pakalpojums['values'] = pakalpojumi
 
-
+# Poga: Ielādē pakalpojumus pēc datora veida
 datorspoga = tk.Button(logs, text="Izvēlēties", font=("Arial", 8, "bold"), bd=3, command=izvele_dators)
 datorspoga.grid(row=3, column=0, pady=10, padx=10)
 
-
+# Izvades logs
 izvade = tk.Listbox(logs, width=110, bg="#505050", fg="white", bd=5)
 izvade.grid(row=5, columnspan=3, pady=10, padx=25)
 
-
+# Pievienot pakalpojumu sarakstam
 def pievienot_pakalpojumu():
     global kop_summ, dators_izveletais
 
@@ -85,17 +85,17 @@ def pievienot_pakalpojumu():
 
     pakalpojums.set('')
 
-
+# Poga: Pievienot pakalpojumu
 pakalpojumspoga = tk.Button(logs, text="Pievienot pakalpojumu", font=("Arial", 8, "bold"), bd=3, command=pievienot_pakalpojumu)
 pakalpojumspoga.grid(row=3, column=2, pady=10)
 
-
+# Izdzēst sarakstu
 def delete():
     global kop_summ
     izvade.delete(0, tk.END)
     kop_summ = 0.0
 
-
+# Poga: Izdzēst
 izdzest = tk.Button(logs, text="Izdzēst visu", font=("Arial", 8, "bold"), bd=3, command=delete)
 izdzest.grid(row=6, columnspan=3, pady=10)
 
