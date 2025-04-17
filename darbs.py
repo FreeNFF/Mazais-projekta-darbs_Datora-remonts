@@ -101,7 +101,7 @@ izdzest = tk.Button(logs, text="Izdzēst visu", font=("Arial", 8, "bold"), bd=3,
 izdzest.grid(row=6, columnspan=3, pady=10)
 
 def saglabat_uz_failu():
-    with open("rezultati.txt", mode="w", encoding="utf-8") as file:
+    with open("Pieteikumi.txt", mode="w", encoding="utf-8") as file:
         for i in range(izvade.size()):
             rindina = izvade.get(i)
             file.write(rindina + "\n")
