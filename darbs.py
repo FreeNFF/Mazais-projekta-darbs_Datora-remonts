@@ -24,6 +24,8 @@ ttk.Label(logs, text="Datora remonts", font='Arial 32 bold', background='#F5EAD4
 
 #mainīgo ieviešana
 kop_summ = 0.0
+kop_summ_pvn = 0.0
+kop_stundas = 0.0
 dators_izveletais = ""
 
 #teksta ievietošana un izvēles ievietošana
@@ -61,7 +63,7 @@ izvade.grid(row=5, columnspan=3, pady=10, padx=25)
 
 #funkcija ar kuru var pievienot vairākus pakalpojumus, izrēķina kopīgo cenu, viss tiek reģistrēts izvades logā
 def pievienot_pakalpojumu():
-    global kop_summ, dators_izveletais
+    global kop_summ, dators_izveletais,kop_stundas,kop_summ_pvn
 
     izveletais_pak = pakalpojums.get()
     if not dators_izveletais or not izveletais_pak:#ja nav ne izvēlēts dators, ne izvēlēts pakalpojums, tālāk neko nedarīt
@@ -69,17 +71,27 @@ def pievienot_pakalpojumu():
 #atver csv failu ar visiem datiem par pakalpojumiem
     with open("pakalpojumi.csv", mode='r', encoding="utf-8") as file:
         csv_reader = csv.DictReader(file)
-        #funkcija, lai izvadītu kaut ko izvades logā, tad pārbauda vai visi izvēlētie dati sakrīt ar csv failu, ja sakrīt, tad tiek izvadīts datora veids, pakalpojums un cena
+        #funkcija, lai izvadītu kaut ko izvades logā, tad pārbauda vai visi izvēlētie dati sakrīt ar csv failu, ja sakrīt, tad tiek izvadīts datora veids, pakalpojums, cena un ilgums
         for row in csv_reader:
             if row["Veids"] == dators_izveletais and row["Pakalpojums"] == izveletais_pak:
                 cena = row["Cena"]
+                stundas=row["Laiks"]
                 try:
                     cena_float = float(cena)
+                    pvncena = float(cena_float*1.21)
+                    stundas_float = float(stundas)
                     kop_summ += cena_float
+                    kop_summ_pvn += pvncena
+                    kop_stundas += stundas_float
                     izvade.insert(tk.END, f"Datora veids: {dators_izveletais}")
                     izvade.insert(tk.END, f"Pakalpojums: {izveletais_pak}")
-                    izvade.insert(tk.END, f"Cena: {cena} EUR")
-                    izvade.insert(tk.END, f"Kopējā summa: {kop_summ:.2f} EUR")
+                    izvade.insert(tk.END, f"Cena bez PVN: {cena} EUR")
+                    izvade.insert(tk.END, f"Cena ar PVN: {pvncena} EUR")
+                    izvade.insert(tk.END, f"Ilgums: {stundas} h")
+                    izvade.insert(tk.END, "-"*80)
+                    izvade.insert(tk.END, f"Kopējā summa bez PVN: {kop_summ:.2f} EUR")
+                    izvade.insert(tk.END, f"Kopējā summa ar PVN: {kop_summ_pvn:.2f} EUR")
+                    izvade.insert(tk.END, f"Kopējais ilgums: {kop_stundas:.2f} h")
                     izvade.insert(tk.END, "-"*80)
                 except:
                     pass
