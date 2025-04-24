@@ -7,7 +7,7 @@ from PIL import Image, ImageTk
 #loga izveide
 logs = tk.Tk()
 logs.title("Datora remonts")
-logs.geometry("720x650")
+logs.geometry("730x650")
 logs.configure(background="#F5EAD4")
 
 #attēla pievienošana
@@ -57,9 +57,18 @@ def izvele_dators():
 datorspoga = tk.Button(logs, text="Izvēlēties", font=("Arial", 8, "bold"), bd=3, command=izvele_dators)
 datorspoga.grid(row=3, column=0, pady=10, padx=10)
 
+
 #datora veida, pakalpojumu un cenas izvades logs
 izvade = tk.Listbox(logs, width=110, bg="#505050", fg="white", bd=5)
 izvade.grid(row=5, columnspan=3, pady=10, padx=25)
+
+# Scrollbar pievienošana Listboxam
+scrollbar = tk.Scrollbar(logs, orient=tk.VERTICAL)
+scrollbar.grid(row=5, columnspan=3, sticky='nse', pady=10)
+
+# Pievieno scroll iespēju Listbox objektam
+izvade.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=izvade.yview)
 
 #funkcija ar kuru var pievienot vairākus pakalpojumus, izrēķina kopīgo cenu, viss tiek reģistrēts izvades logā
 def pievienot_pakalpojumu():
@@ -87,11 +96,11 @@ def pievienot_pakalpojumu():
                     izvade.insert(tk.END, f"Pakalpojums: {izveletais_pak}")
                     izvade.insert(tk.END, f"Cena bez PVN: {cena} EUR")
                     izvade.insert(tk.END, f"Cena ar PVN: {pvncena} EUR")
-                    izvade.insert(tk.END, f"Ilgums: {stundas} h")
+                    izvade.insert(tk.END, f"Aptuvenais darba ilgums: {stundas} h")
                     izvade.insert(tk.END, "-"*80)
                     izvade.insert(tk.END, f"Kopējā summa bez PVN: {kop_summ:.2f} EUR")
                     izvade.insert(tk.END, f"Kopējā summa ar PVN: {kop_summ_pvn:.2f} EUR")
-                    izvade.insert(tk.END, f"Kopējais ilgums: {kop_stundas:.2f} h")
+                    izvade.insert(tk.END, f"Kopējais darba ilgums: {kop_stundas:.2f} h")
                     izvade.insert(tk.END, "-"*80)
                 except:
                     pass
